@@ -210,12 +210,6 @@ Senha:
 
 ## Autor
 
-**Ighor Alves de Oliveira**
+**Ighor**
 
 Estudante de Análise e Desenvolvimento de Sistemas.
-
-Apaixonado por desenvolvimento backend, Java e arquitetura de software.
-
-LinkedIn: Seu LinkedIn aqui
-
-GitHub: Seu GitHub aqui
