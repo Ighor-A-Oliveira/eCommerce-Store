@@ -8,6 +8,7 @@ import com.ighor.api.e_commerce.exception.ResourceNotFoundException;
 import com.ighor.api.e_commerce.mapper.OrderMapper;
 import com.ighor.api.e_commerce.model.entity.*;
 import com.ighor.api.e_commerce.model.enums.OrderStatus;
+import com.ighor.api.e_commerce.model.enums.PaymentMethod;
 import com.ighor.api.e_commerce.model.enums.PaymentStatus;
 import com.ighor.api.e_commerce.repo.*;
 import jakarta.transaction.Transactional;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 //terminar o atualizar pedido
 
@@ -25,7 +27,6 @@ public class OrderService {
     private final OrderRepo orderRepo;
     private final UserRepo userRepo;
     private final AddressRepo addrRepo;
-    private final CartService cartServ;
     private final PaymentRepo payRepo;
     private final UserPaymentMethodRepo paymentMethodRepo;
     private final OrderMapper orderMapper;
@@ -35,14 +36,12 @@ public class OrderService {
             PaymentRepo payRepo,
             UserRepo userRepo,
             AddressRepo addrRepo,
-            CartService cartServ,
             UserPaymentMethodRepo paymentMethodRepo,
             OrderMapper orderMapper) {
 
         this.orderRepo = orderRepo;
         this.userRepo = userRepo;
         this.addrRepo = addrRepo;
-        this.cartServ = cartServ;
         this.payRepo = payRepo;
         this.paymentMethodRepo = paymentMethodRepo;
         this.orderMapper = orderMapper;
@@ -57,12 +56,10 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
         //Buscando endereco do user
-        Address addr = addrRepo.findById(dto.addressId())
-                .orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado"));
+        Address addr = addrRepo.findById(dto.addressId()).orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado"));
 
         //Buscando metodo de pagamento do user
-        UserPaymentMethod paymentMethod = paymentMethodRepo.findById(dto.addressId())
-                .orElseThrow(() -> new ResourceNotFoundException("Método de pagamento não encontrado"));
+        UserPaymentMethod paymentMethod = paymentMethodRepo.findById(dto.paymentId()).orElseThrow(() -> new ResourceNotFoundException("Metodo de pagamento nao foi encontrado"));
 
         //Pegando acesso ao cart
         Cart cart = user.getCart();
