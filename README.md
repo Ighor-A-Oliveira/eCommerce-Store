@@ -17,7 +17,7 @@ O projeto foi criado com o objetivo de consolidar conhecimentos em desenvolvimen
 - H2 Database
 - Maven
 - Lombok
-- JUnit5
+- JUnit 5
 - Mockito
 
 ---
