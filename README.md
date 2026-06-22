@@ -8,7 +8,7 @@ O projeto foi criado com o objetivo de consolidar conhecimentos em desenvolvimen
 
 ## 🚀 Tecnologias Utilizadas
 
-- Java 25
+- Java 21
 - Spring Boot
 - Spring Security
 - JWT Authentication
@@ -17,6 +17,8 @@ O projeto foi criado com o objetivo de consolidar conhecimentos em desenvolvimen
 - H2 Database
 - Maven
 - Lombok
+- JUnit 5
+- Mockito
 
 ---
 
