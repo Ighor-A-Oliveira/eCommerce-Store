@@ -29,10 +29,6 @@ public class UserPaymentMethodService {
         this.payMapper = payMapper;
     }
 
-    public List<UserPaymentMethod> listarMetodoPagamentoPorUserId(Long userId) {
-        //Retornar uma lista com todos os metodos de pagamento do usuario
-        return paymentMethodRepo.findByUserId(userId);
-    }
 
     @Transactional
     public UserPaymentMethodResponseDTO salvarMetodoPagamento(Long userId, UserPaymentMethodRequestDTO dto) {
@@ -65,6 +61,15 @@ public class UserPaymentMethodService {
                 paymentMethod.getUpdatedAt()
         );
     }
+
+
+
+    public List<UserPaymentMethod> listarMetodoPagamentoPorUserId(Long userId) {
+        //Retornar uma lista com todos os metodos de pagamento do usuario
+        return paymentMethodRepo.findByUserId(userId);
+    }
+
+
 
     @Transactional
     public void deletarMetodoPagamentoPorId(Long id, Long userId) {
