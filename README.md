@@ -1,8 +1,9 @@
 # 🛒 E-Commerce API
 
-API REST de um sistema de e-commerce desenvolvida com Java e Spring Boot.
+API REST de um sistema de e-commerce desenvolvida com **Spring Boot**, com foco em práticas de backend, organização em camadas e estrutura pronta para portfólio de desenvolvedor Java.
 
-O projeto foi criado com o objetivo de consolidar conhecimentos em desenvolvimento backend e servir como projeto de portfólio para vagas de Estágio e Desenvolvedor Júnior.
+O projeto simula funcionalidades reais de um sistema de loja online, incluindo produtos, categorias, usuários e regras de segurança.
+
 
 ---
 
@@ -10,6 +11,7 @@ O projeto foi criado com o objetivo de consolidar conhecimentos em desenvolvimen
 
 - Java 21
 - Spring Boot
+- Spring Web
 - Spring Security
 - JWT Authentication
 - Spring Data JPA
@@ -17,8 +19,21 @@ O projeto foi criado com o objetivo de consolidar conhecimentos em desenvolvimen
 - H2 Database
 - Maven
 - Lombok
-- JUnit 5
-- Mockito
+- Swagger / OpenAPI
+- JUnit + Mockito (testes)
+
+---
+
+## 🧠 Objetivo do projeto
+
+Este projeto foi desenvolvido com foco em aprendizado prático e portfólio, simulando um cenário real de backend para e-commerce, com:
+
+- Arquitetura em camadas (Controller, Service, Repository)
+- Uso de DTOs para entrada e saída de dados
+- Validações com Bean Validation
+- Segurança com Spring Security
+- Testes unitários com Mockito
+- Documentação da API com Swagger
 
 ---
 
@@ -36,6 +51,29 @@ Repository
 Database
 ```
 
+---
+
+## 📁 Estrutura do Projeto
+
+```text
+src/main/java/com/ighor/api/e_commerce
+
+├── controller
+├── service
+├── repo
+├── dto
+│   ├── request
+│   ├── response
+│   └── entity
+├── mapper
+├── model
+│   ├── entity
+│   └── enums
+├── security
+└── exception
+```
+
+---
 Além disso, foi utilizada separação entre:
 
 - DTOs de Request
@@ -118,27 +156,15 @@ ADMIN
 CUSTOMER
 ```
 
----
+## 🧪 Testes
 
-## 📁 Estrutura do Projeto
+O projeto possui testes unitários focados em controllers utilizando:
 
-```text
-src/main/java/com/ighor/api/e_commerce
+- MockMvc
+- Mockito
+- @WebMvcTest
 
-├── controller
-├── service
-├── repo
-├── dto
-│   ├── request
-│   ├── response
-│   └── entity
-├── mapper
-├── model
-│   ├── entity
-│   └── enums
-├── security
-└── exception
-```
+Cobertura dos principais endpoints da API.
 
 ---
 
@@ -198,7 +224,135 @@ Senha:
 (sem senha)
 ```
 
----
+"""## Como usar a API (Postman / Insomnia)
+
+Base URL (local):
+http://localhost:8080
+
+------------------------------------------------------------
+
+## 👤 Usuário
+
+### Registrar usuário
+POST /user/register
+
+{
+  "name": "ighor",
+  "email": "ighor@email.com",
+  "password": "123",
+  "phone": "1234"
+}
+
+### Login
+POST /user/login
+
+{
+  "email": "ighor@email.com",
+  "password": "123"
+}
+
+------------------------------------------------------------
+
+## 🗂️ Categorias
+
+### Criar categoria
+POST /category
+
+{
+  "name": "Movies",
+  "slug": "movies",
+  "description": "Products related to movies, DVDs, Blu-ray discs, etc"
+}
+
+------------------------------------------------------------
+
+## 📦 Produtos
+
+### Criar produto
+POST /product
+
+{
+  "name": "Blu-ray",
+  "description": "A disc that contains a movie",
+  "price": 100.50,
+  "stockQuantity": 50,
+  "imageUrl": "https://example.com/image.jpg",
+  "sku": "brd01",
+  "active": true,
+  "categoryId": 1
+}
+
+------------------------------------------------------------
+
+## 🏠 Endereços
+
+### Adicionar endereço
+POST /address
+
+{
+  "street": "Rua Usuario",
+  "number": "24",
+  "complement": "",
+  "neighborhood": "Vila do Usuario",
+  "city": "Sao Paulo",
+  "state": "SP",
+  "zipCode": "000100-000",
+  "userId": 1
+}
+
+------------------------------------------------------------
+
+## 💳 Métodos de pagamento
+
+### PIX
+POST /payment-method/1
+
+{
+  "method": "PIX",
+  "isDefault": true
+}
+
+### Cartão de crédito
+POST /payment-method/1
+
+{
+  "method": "CREDIT_CARD",
+  "cardHolderName": "Ighor Alves",
+  "lastFourDigits": "1234",
+  "expiryMonth": "12",
+  "expiryYear": "2030",
+  "token": "fake-token",
+  "isDefault": true
+}
+
+------------------------------------------------------------
+
+## 🛒 Carrinho
+
+### Adicionar item ao carrinho
+POST /cart/1/items
+
+{
+  "productId": 1,
+  "quantity": 2
+}
+
+------------------------------------------------------------
+
+## 📑 Pedidos (Orders)
+
+### Criar pedido
+POST /order
+
+{
+  "addressId": 1,
+  "paymentId": 1,
+  "userId": 1
+}
+
+### Buscar pedidos do usuário
+GET /order/user/1
+"""
 
 ## Próximos passos
 
