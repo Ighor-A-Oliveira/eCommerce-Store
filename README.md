@@ -1,16 +1,13 @@
 # 🛒 E-Commerce API
 
-API REST de um sistema de e-commerce desenvolvida com **Spring Boot**, com foco em práticas de backend, organização em camadas e estrutura pronta para portfólio de desenvolvedor Java.
-
-O projeto simula funcionalidades reais de um sistema de loja online, incluindo produtos, categorias, usuários e regras de segurança.
-
+Projeto backend de e-commerce construído para simular um sistema real de loja online, com autenticação JWT, controle de estoque e fluxo de pedidos completo.
 
 ---
 
 ## 🚀 Tecnologias Utilizadas
 
 - Java 21
-- Spring Boot
+- Spring Boot 3
 - Spring Web
 - Spring Security
 - JWT Authentication
@@ -31,8 +28,8 @@ Este projeto foi desenvolvido com foco em aprendizado prático e portfólio, sim
 - Arquitetura em camadas (Controller, Service, Repository)
 - Uso de DTOs para entrada e saída de dados
 - Validações com Bean Validation
-- Segurança com Spring Security
-- Testes unitários com Mockito
+- Segurança com Spring Security e JWT
+- Testes unitários de Services com Mockito
 - Documentação da API com Swagger
 
 ---
@@ -70,18 +67,9 @@ src/main/java/com/ighor/api/e_commerce
 │   ├── entity
 │   └── enums
 ├── security
+├── config
 └── exception
 ```
-
----
-Além disso, foi utilizada separação entre:
-
-- DTOs de Request
-- DTOs de Response
-- DTOs de Entidade
-- Mappers
-- Entidades
-- Configurações de Segurança
 
 ---
 
@@ -111,7 +99,7 @@ Além disso, foi utilizada separação entre:
 
 ### 🛒 Carrinho
 
-- Criar carrinho automaticamente para usuário
+- Criar carrinho automaticamente para o usuário
 - Adicionar produtos
 - Atualizar quantidade
 - Remover itens
@@ -125,7 +113,7 @@ Além disso, foi utilizada separação entre:
 
 ### 💳 Métodos de pagamento
 
-- Cadastro de método de pagamento
+- Cadastro de método de pagamento (PIX e Cartão de Crédito)
 - Definir método padrão
 - Listar métodos cadastrados
 
@@ -151,20 +139,22 @@ A aplicação utiliza:
 
 Roles disponíveis:
 
-```java
+```
 ADMIN
 CUSTOMER
 ```
 
+---
+
 ## 🧪 Testes
 
-O projeto possui testes unitários focados em controllers utilizando:
+O projeto possui testes unitários de Services com:
 
-- MockMvc
+- JUnit 5
 - Mockito
-- @WebMvcTest
+- @ExtendWith(MockitoExtension.class)
 
-Cobertura dos principais endpoints da API.
+Cobertura dos principais serviços: UserService, CartService, OrderService, AddressService, CategoryService e UserPaymentMethodService.
 
 ---
 
@@ -196,81 +186,94 @@ mvn spring-boot:run
 
 ---
 
-## Banco de Dados
+## 🗄️ Banco de Dados
 
-O projeto utiliza H2 Database para desenvolvimento.
+O projeto utiliza H2 Database (em memória) para desenvolvimento.
 
-Console H2:
+Console H2 disponível em:
 
-```text
+```
 http://localhost:8080/h2-console
 ```
 
-URL:
+| Campo | Valor            |
+|-------|------------------|
+| URL   | jdbc:h2:mem:usuario |
+| Usuário | sa             |
+| Senha | (sem senha)      |
 
-```text
-jdbc:h2:mem:usuario
+---
+
+## 📖 Documentação da API
+
+A documentação interativa via Swagger está disponível após subir a aplicação:
+
+```
+http://localhost:8080/swagger-ui.html
 ```
 
-Usuário:
+---
 
-```text
-sa
+## 🔧 Como usar a API (Postman / Insomnia)
+
+Base URL (local): `http://localhost:8080`
+
+> ⚠️ A maioria dos endpoints requer autenticação. Após o login, envie o token JWT no header:
+> `Authorization: Bearer {seu_token}`
+
+---
+
+### 👤 Usuário
+
+**Registrar usuário**
 ```
-
-Senha:
-
-```text
-(sem senha)
-```
-
-"""## Como usar a API (Postman / Insomnia)
-
-Base URL (local):
-http://localhost:8080
-
-------------------------------------------------------------
-
-## 👤 Usuário
-
-### Registrar usuário
 POST /user/register
-
+```
+```json
 {
   "name": "ighor",
   "email": "ighor@email.com",
   "password": "123",
   "phone": "1234"
 }
+```
 
-### Login
+**Login**
+```
 POST /user/login
-
+```
+```json
 {
   "email": "ighor@email.com",
   "password": "123"
 }
+```
 
-------------------------------------------------------------
+---
 
-## 🗂️ Categorias
+### 🗂️ Categorias
 
-### Criar categoria
+**Criar categoria**
+```
 POST /category
-
+```
+```json
 {
   "name": "Movies",
   "slug": "movies",
   "description": "Products related to movies, DVDs, Blu-ray discs, etc"
 }
+```
 
-------------------------------------------------------------
+---
 
-## 📦 Produtos
+### 📦 Produtos
 
-### Criar produto
+**Criar produto**
+```
 POST /product
-
+```
+```json
 {
   "name": "Blu-ray",
   "description": "A disc that contains a movie",
@@ -281,14 +284,17 @@ POST /product
   "active": true,
   "categoryId": 1
 }
+```
 
-------------------------------------------------------------
+---
 
-## 🏠 Endereços
+### 🏠 Endereços
 
-### Adicionar endereço
+**Adicionar endereço**
+```
 POST /address
-
+```
+```json
 {
   "street": "Rua Usuario",
   "number": "24",
@@ -296,25 +302,31 @@ POST /address
   "neighborhood": "Vila do Usuario",
   "city": "Sao Paulo",
   "state": "SP",
-  "zipCode": "000100-000",
+  "zipCode": "00010-000",
   "userId": 1
 }
+```
 
-------------------------------------------------------------
+---
 
-## 💳 Métodos de pagamento
+### 💳 Métodos de pagamento
 
-### PIX
+**PIX**
+```
 POST /payment-method/1
-
+```
+```json
 {
   "method": "PIX",
   "isDefault": true
 }
+```
 
-### Cartão de crédito
+**Cartão de crédito**
+```
 POST /payment-method/1
-
+```
+```json
 {
   "method": "CREDIT_CARD",
   "cardHolderName": "Ighor Alves",
@@ -324,47 +336,57 @@ POST /payment-method/1
   "token": "fake-token",
   "isDefault": true
 }
+```
 
-------------------------------------------------------------
+---
 
-## 🛒 Carrinho
+### 🛒 Carrinho
 
-### Adicionar item ao carrinho
+**Adicionar item ao carrinho**
+```
 POST /cart/1/items
-
+```
+```json
 {
   "productId": 1,
   "quantity": 2
 }
+```
 
-------------------------------------------------------------
+---
 
-## 📑 Pedidos (Orders)
+### 📑 Pedidos
 
-### Criar pedido
+**Criar pedido**
+```
 POST /order
-
+```
+```json
 {
   "addressId": 1,
   "paymentId": 1,
   "userId": 1
 }
+```
 
-### Buscar pedidos do usuário
+**Buscar pedidos do usuário**
+```
 GET /order/user/1
-"""
+```
 
-## Próximos passos
+---
 
-- [ ] Melhorar Exception Handling
-- [ ] Testes unitários com JUnit e Mockito
+## 🔜 Próximos passos
+
+- [ ] Expandir cobertura de testes unitários
+- [ ] Criar testes de integração
 - [ ] Front-end em React
 - [ ] Dockerização da aplicação
 - [ ] Deploy
 
 ---
 
-## Autor
+## 👤 Autor
 
 **Ighor**
 
