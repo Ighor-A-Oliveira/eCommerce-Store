@@ -17,7 +17,7 @@ Projeto backend de e-commerce construído para simular um sistema real de loja o
 - Maven
 - Lombok
 - Swagger / OpenAPI
-- JUnit + Mockito (testes)
+- JUnit + Mockito (testes unitarios)
 
 ---
 
